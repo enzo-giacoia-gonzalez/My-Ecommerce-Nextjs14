@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Country {
+  id   String @id
+  name String
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  Product Product[]
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  title       String   
+  description String
+  img         String
+  slug        String   @unique
+  inStock     Int[]
+  price       Float    @default(0)
+  gender      Gender   
+  size        Size[]     
+  categoryId String
+  category    Category @relation(fields: [categoryId], references: [id])
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum Gender {
+  kid
+  men
+  women
+  unisex
+}
+
+enum Type {
+  shirts
+  pants
+  hoodies
+  hats
+}
