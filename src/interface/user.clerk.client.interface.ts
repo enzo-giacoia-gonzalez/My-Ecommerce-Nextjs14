@@ -21,13 +21,13 @@ export interface User {
     lastName: string | null;
     publicMetadata: {
 
-        role?: string; // Make role optional
+        role?: string;
     };
     privateMetadata: {
-        role?: string; // Make role optional
+        role?: string; 
     };
     unsafeMetadata: {
-        role?: string; // Make role optional
+        role?: string;
     };
     emailAddresses: { id: string; emailAddress: string; verified?: boolean | undefined; primary?: boolean | undefined; }[];
     phoneNumbers: { id: string; emailAddress?: string; verified?: boolean | undefined; primary?: boolean | undefined; }[];

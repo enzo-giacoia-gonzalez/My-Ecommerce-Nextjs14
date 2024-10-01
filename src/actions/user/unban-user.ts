@@ -4,7 +4,7 @@ import { auth, clerkClient } from "@clerk/nextjs/server"
 import { revalidateTag } from "next/cache"
 import { redirect, RedirectType } from "next/navigation"
 
-export default async function unbanUser(formData: FormData) {
+export async function unbanUser(formData: FormData) {
 
     const { sessionClaims } = auth();
 

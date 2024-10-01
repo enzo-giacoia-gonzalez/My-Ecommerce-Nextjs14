@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image'
 import Slider from "react-slick";
-import bag from "../../../../public/BAG.avif"
+import { Categories } from '@/interface';
 
 
 
 
-export const ShowSlideShowMobile = () => {
+export const ShowSlideShowMobile = ({ categories }: Categories) => {
 
     const settings = {
         className: "",
@@ -26,18 +26,17 @@ export const ShowSlideShowMobile = () => {
             <div className='rounded-md border bg-[#F5F5F5]'>
 
                 <Slider {...settings}>
-                    <Link href={'/'}>
-                        <Image src={bag} alt="image" width={430} className='m-[0.5rem]' />
-                    </Link>
-                    <Link href={'/'}>
-                        <Image src={bag} alt="image" width={430} className='m-[0.5rem]' />
-                    </Link>
-                    <Link href={'/'}>
-                        <Image src={bag} alt="image" width={430} className='m-[0.5rem]' />
-                    </Link>
-                    <Link href={'/'}>
-                        <Image src={bag} alt="image" width={430} className='m-[0.5rem]' />
-                    </Link>
+                    {
+                        categories.map(category => (
+                            <Link className='hover:opacity-85' key={category.id} href={`category/${category.name.toLowerCase()}`}>
+                                <Image src={category.img ? category.img.startsWith('http')
+                                    ? category.img
+                                    : `/categories/${category.img}`
+                                    : `/img/placeholder.jpg`} alt={category.name} width={430} height={430} className='m-[0.5rem]' />
+                            </Link>
+
+                        ))
+                    }
                 </Slider>
 
             </div>

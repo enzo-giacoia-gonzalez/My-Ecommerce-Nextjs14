@@ -1,122 +1,131 @@
 'use client'
 
+import { useState, useEffect, useCallback } from 'react';
+import { useForm } from "react-hook-form";
+import { Size } from '@prisma/client';
+import { Dialog, Button, Flex, Text, TextField} from "@radix-ui/themes";
+import { UpdateIcon, PlusIcon } from '@radix-ui/react-icons'
 import { createProduct } from "@/actions";
-import { Category, PropsProduct } from "@/interface";
-import { Dialog, Button, Flex, Text, TextField } from "@radix-ui/themes";
-import clsx from "clsx";
-import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
-
+import { Category, FormInputs, Product } from "@/interface";
+import Image from 'next/image';
+import {  StockInput } from './StockInput';
+import { SizeInput } from './SizeInput';
 
 interface Props {
-    product?: PropsProduct
+    product?: Product
     categories?: Category[]
+    category: Category
     titleButton: string,
     dialogTitle: string,
     dialogDescription: string,
 }
 
 
-const sizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+const typesSizes = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"];
+const typesStocks = ["stockXS", "stockS", "stockM", "stockL", "stockXL", "stockXXL", "stockXXXL"];
 
-export const DialogAdminProduct = ({ categories, product, titleButton, dialogTitle, dialogDescription }: Props) => {
+export const DialogAdminProduct = ({ categories, product, titleButton, dialogTitle, dialogDescription, category }: Props) => {
 
     const [size, setSize] = useState({ XS: '', S: '', M: '', L: '', XL: '', XXL: '', XXXL: '' })
-    const [stock, setStock] = useState({ stockXS: 0, stockS: 0, stockM: 0, stockL: 0, stockXL: 0, StockXXL: 0, StockXXXL: 0 })
 
-    const { register, handleSubmit, formState: { errors }, watch ,getValues,setValue} = useForm({
+    const [inStock, setStock] = useState({ stockXS: 0, stockS: 0, stockM: 0, stockL: 0, stockXL: 0, stockXXL: 0, stockXXXL: 0 })
+
+
+    const { register, handleSubmit, formState: { errors }, watch, getValues, setValue } = useForm<FormInputs>({
         defaultValues: {
-            id: "",
-            title: product?.title ?? "",
-            description: product?.description ?? "",
-            img: product?.img ?? "",
-            slug: product?.slug ?? "",
+            ...product,
+            sizes: product?.sizes ?? [],
+            img: undefined,
             inStock: product?.inStock ?? [],
-            price: product?.price ?? "",
-            gender: product?.gender ?? "",
-            size: product?.size ?? [""],
-            categoryId: product?.categoryId ?? ""
         }
     });
 
-    
+    watch('sizes')
+    watch('inStock')
+    watch('categoryId')
+
+
+    const loadSizes = useCallback(
+        () => {
+            const loadsize = new Set(product?.sizes)
+
+            for (let index = 0; index < product?.sizes?.length!; index++) {
+                setSize((prevSize) => ({
+                    ...prevSize as { XS: string, S: string, M: string, L: string, XL: string, XXL: string, XXXL: string },
+                    [typesSizes[index]]: Array.from(loadsize).includes(typesSizes[index] as unknown as Size) ? (typesSizes[index] as Size) : '',
+                }))
+            }
+
+            setValue("sizes", size as unknown as Size[])
+        },
+        [product?.sizes, setValue, size],
+    )
 
 
 
-    
+    const loadStocks = useCallback(
+        () => {
 
-    const onSizeSelected = (sizeItem: string) => {
+            for (let index = 0; index < product?.inStock?.length!; index++) {
 
-        if ((size as any)[sizeItem]) {
-            setSize({
-                ...size,
-                [sizeItem]: ""
-            })
+                setStock((prevInStock) => ({
+                    ...prevInStock,
+                    [typesStocks[index]]: product?.inStock[index],
+                }));
 
-            setValue('size', size as unknown as string[])
-            
-        } else {
-            setSize({
-                ...size,
-                [sizeItem]: sizeItem
-            })
-            setValue('size', size as unknown as string[])
-           
-        }
-       
-    }
+            }
+
+            setValue("inStock", inStock as unknown as number[])
+        }, [inStock, product?.inStock, setValue]
+    )
+
+    useEffect(() => {
+        loadStocks()
+        loadSizes()
+    }, [])
 
 
-    
-    
 
-    console.log(size)
+    useEffect(() => {
+        setValue("inStock", inStock as unknown as number[])
+    }, [setValue, inStock])
 
-    console.log(watch("size"))
+    useEffect(() => {
+        setValue("sizes", size as unknown as Size[])
+    }, [setValue, size])
 
-    const onSubmit = (data: any) => {
+
+
+    const onSubmit = (data: FormInputs) => {
         const { img, ...productToSave } = data
-
-
         const formData = new FormData()
 
-
-        console.log(productToSave)
-
-
-
+        if (product?.id) {
+            formData.append("id", product?.id)
+        }
 
         formData.append("title", productToSave.title)
         formData.append("description", productToSave.description)
         formData.append("slug", productToSave.slug)
-        formData.append("inStock", productToSave.inStock)
-        formData.append("price", productToSave.price)
+        formData.append("inStock", Object.values(productToSave.inStock).toString())
+        formData.append("price", productToSave.price.toString())
         formData.append("gender", productToSave.gender)
-        formData.append("size", productToSave.size)
+        formData.append("sizes", Object.values(productToSave.sizes).toString())
         formData.append("categoryId", productToSave.categoryId)
-        formData.append('img', img[0])
 
-
-
-
-
-        if (titleButton === "Create product") {
-            createProduct(formData)
+        if (getValues("img")!.length > 0) {
+            formData.append('img', img![0])
         }
 
-        formData.append("id", product?.id!)
-
-        //updateProduct(formData)
-
-
-
+        createProduct(formData)
     }
+
 
 
     return (
         <Dialog.Root>
-            <Dialog.Trigger className="h-[45px] w-[130px] mt-4 lg:ml-7">
-                <button className="text-white bg-black p-[8px] ml-8 rounded-full font-medium hover:opacity-80">{titleButton}</button>
+            <Dialog.Trigger className="">
+                {titleButton === "Create product" ? <Button className="hover:opacity-90" style={{ padding: "21px", backgroundColor: 'black', color: "white", borderRadius: "8px", cursor: "pointer" }}><PlusIcon /></Button> : <Button className="hover:opacity-90" style={{ padding: "21px", backgroundColor: 'black', color: "white", borderRadius: "8px", cursor: "pointer" }}><UpdateIcon /></Button>}
             </Dialog.Trigger>
 
             <Dialog.Content maxWidth="450px" onSubmit={handleSubmit(onSubmit)}>
@@ -127,124 +136,95 @@ export const DialogAdminProduct = ({ categories, product, titleButton, dialogTit
 
                 <form>
                     <Flex direction="column" gap="3">
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Name
-                            </Text>
-                            <TextField.Root
-                                {...register("title", { required: "This field is required" })}
-                                placeholder="Enter your full name"
-                            />
-                        </label>
+
+                        <Text as="label" size="2" mb="1" mt="2" weight="bold">
+                            Name
+                        </Text>
+
+                        <TextField.Root
+                            {...register("title", { required: "This field is required" })}
+                            placeholder="Enter your full name"
+                        />
                         <span className="text-red-600">{errors.title?.message}</span>
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Description
-                            </Text>
-                            <TextField.Root
-                                {...register("description", { required: "This field is required" })}
-                                placeholder="Enter your description"
-                            />
-                        </label>
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            Description
+                        </Text>
+                        <TextField.Root
+                            {...register("description", { required: "This field is required" })}
+                            placeholder="Enter your description"
+                        />
+
                         <span className="text-red-600">{errors.description?.message}</span>
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                img
-                            </Text>
-                            <input className="" type="file"
-                                {...register("img", { required: "This field is required" })}
+
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            img
+                        </Text>
+
+                        <div className='flex flex-row'>
+                            <Image
+                                alt={product?.title ?? ''}
+                                src={product?.img ?? ''}
+                                width={300}
+                                height={300}
+                                className="rounded-t shadow-md"
                             />
-                        </label>
+                        </div>
+
+                        <input className="" type="file"
+                            {...register("img")}
+                        />
                         <span className="text-red-600">{errors.img?.message}</span>
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Slug
-                            </Text>
-                            <TextField.Root
-                                {...register("slug", { required: "This field is required" })}
-                                placeholder="Enter your slug"
-                            />
-                        </label>
+
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            Slug
+                        </Text>
+                        <TextField.Root
+                            {...register("slug", { required: "This field is required" })}
+                            placeholder="Enter your slug"
+                        />
                         <span className="text-red-600">{errors.slug?.message}</span>
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                inStock
-                            </Text>
-                            <TextField.Root
-                                type="number"
-                                {...register("inStock", { required: "This field is required" })}
-                                placeholder="Enter your stock"
-                            />
-                        </label>
-                        <span className="text-red-600">{errors.inStock?.message}</span>
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            Type
+                        </Text>
+                        <select className="border-2 rounded-sm" defaultValue={"shirts"}  {...register("categoryId", { required: "This field is required" })}>
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Price
-                            </Text>
-                            <TextField.Root
-                                type="number"
-                                {...register("price", { required: "This field is required" })}
-                                placeholder="Enter your price"
-                            />
-                        </label>
-                        <span className="text-red-600">{errors.price?.message}</span>
+                            {categories?.map((category) => (
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Type
-                            </Text>
-
-                            <select className="border-2 rounded-sm" defaultValue={"shirts"}  {...register("categoryId", { required: "This field is required" })}>
-
-                                {categories?.map((category) => (
-                                    <option key={category.id} value={category.id}>{category.name}</option>
-                                ))}
-
-                            </select>
-
-                        </label>
+                            {titleButton === "Edit product" && <option key={category.id} value={category.id}>{category.name}</option>}
 
 
-                        <label>
-                            <Text as="div" size="2" mb="1" weight="bold">
-                                Gender
-                            </Text>
-                            <select className="border-2 rounded-sm" defaultValue={"kid"} {...register("gender", { required: "This field is required" })}>
-                                <option value="kid">Kid</option>
-                                <option value="women" selected>Women</option>
-                                <option value="men">Men</option>
-                                <option value="unisex">Unisex</option>
-                            </select>
-                        </label>
+                        </select>
+
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            Gender
+                        </Text>
+                        <select className="border-2 rounded-sm" defaultValue={"kid"} {...register("gender", { required: "This field is required" })}>
+                            <option value="kid">Kid</option>
+                            <option value="women" selected>Women</option>
+                            <option value="men">Men</option>
+                            <option value="unisex">Unisex</option>
+                        </select>
                         <span className="text-red-600">{errors.gender?.message}</span>
 
 
-                        <Text as="div" size="2" mb="1" weight="bold">
-                            Sizes
+
+                        <Text as="label" size="2" mb="1" weight="bold">
+                            Price
                         </Text>
-                        <div className="flex">
-                            {
-                                sizes.map((sizeItem) => (
-                                    <div onClick={() => onSizeSelected(sizeItem)} key={sizeItem}  className={
-                                        clsx("p-2 border cursor-pointer rounded-md mr-2 mb-2 w-14 transition-all text-center", {
-                                            'bg-blue-500 text-white': getValues('size').toString().includes(sizeItem)
-                                        })
-                                    }>
-
-                                        <span>{sizeItem}</span>
-                                    </div>
-                                ))
-                            }
-                        </div>
-
-
-                        <span className="text-red-600">{errors.size?.message}</span>
-
+                        <TextField.Root
+                            type='number'
+                            {...register("price", { required: "This field is required" })}
+                            placeholder="Enter your price"
+                        />
+                        <span className="text-red-600">{errors.price?.message}</span>
+                        <SizeInput setValue={setValue} getValues={getValues} errors={errors} size={size} typesSizes={typesSizes} setSize={setSize}/>
+                        <StockInput errors={errors} getValues={getValues} setValue={setValue} inStock={inStock} setStock={setStock}/>
                     </Flex>
 
                     <Flex gap="3" mt="4" justify="end">

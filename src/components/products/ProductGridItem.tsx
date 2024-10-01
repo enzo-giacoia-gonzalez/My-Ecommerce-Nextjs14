@@ -1,22 +1,15 @@
-import Link from "next/link"
+'use client'
+
 import Image from "next/image"
-import { UUID } from "crypto";
-import { Box, Card } from "@radix-ui/themes";
-
-interface Producto {
-  id: UUID;
-  title: string;
-  price: number;
-  type: string;
-  size: string;
-  img: string;
-}
+import { Product } from "@/interface"
 
 
-export const ProductGridItem = ({ id, title, price, type, size, img }: Producto) => {
+
+
+export const ProductGridItem = ({ id, title, price, img }: Product) => {
   return (
-    <div className="rounded-md border bg-[#F5F5F5] flex flex-col">
-      <div className="flex justify-center">
+    <div className="rounded-md border bg-[#F5F5F5] flex flex-col cursor-pointer hover:opacity-90">
+      <div className="flex justify-center p-8">
         <Image
           src={img}
           alt={title}
@@ -27,11 +20,7 @@ export const ProductGridItem = ({ id, title, price, type, size, img }: Producto)
         </Image>
       </div>
       <div className="p-4 flex flex-col bg-[#FFFFFF]">
-        <Link
-          className="hover:text-blue-600"
-          href={title}>
-          {title}
-        </Link>
+        <span>{title}</span>
         <span className="font-bold">${price}</span>
       </div>
     </div>

@@ -15,6 +15,7 @@ model Country {
 model Category {
   id      String    @id @default(uuid())
   name    String    @unique
+  img     String
   Product Product[]
 }
 
@@ -27,7 +28,7 @@ model Product {
   inStock     Int[]
   price       Float    @default(0)
   gender      Gender   
-  size        Size[]     
+  sizes       Size[]   @default([])
   categoryId String
   category    Category @relation(fields: [categoryId], references: [id])
 }

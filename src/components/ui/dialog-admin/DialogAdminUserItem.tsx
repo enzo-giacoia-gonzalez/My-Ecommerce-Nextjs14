@@ -1,8 +1,6 @@
 
 
-import { updateUserRole } from "@/actions"
-import banUser from "@/actions/user/ban-user"
-import unbanUser from "@/actions/user/unban-user"
+import { banUser, unbanUser, updateUserRole } from "@/actions"
 import { PropsUserClerkClient } from "@/interface"
 import { Table } from "@radix-ui/themes"
 

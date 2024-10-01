@@ -1,17 +1,21 @@
 'use client'
 
 import { Table } from "@radix-ui/themes";
-
-import { Products } from "@/interface";
+import { Category, Product} from "@/interface";
 import { TableAdminProductItem } from "./TableAdminProductItem";
 
 
 
+export interface TableAdminProductProps {
+    products: Product[];
+    categories: Category[];
+}
 
 
-export const TableAdminProduct = ({ products }: Products) => {
+
+export const TableAdminProduct = ({ products, categories }: TableAdminProductProps) => {
     return (
-        <Table.Root className="mx-4 hidden lg:block" variant="surface">
+        <Table.Root className="mx-4 lg:block" variant="surface">
             <Table.Header>
                 <Table.Row>
                     <Table.ColumnHeaderCell>Name product</Table.ColumnHeaderCell>
@@ -21,9 +25,10 @@ export const TableAdminProduct = ({ products }: Products) => {
             </Table.Header>
 
             {products.map((product) => {
+                const category = categories.find((category) => category.id === product.categoryId);
+                if (!category) return null
                 return (
-                    <TableAdminProductItem product={product} key={product.id}
-                    />
+                    <TableAdminProductItem categories={categories} category={category} product={product} key={product.id} />
                 );
             })}
         </Table.Root>
