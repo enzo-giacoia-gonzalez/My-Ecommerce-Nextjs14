@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "seed": "ts-node src/seed/seed-database.ts",
-    "build": "next build",
+    "build": "npm run prisma:deploy && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma:deploy": "npx prisma migrate deploy && prisma generate",
+    "seed": "ts-node src/seed/seed-database.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.2.6",
