@@ -62,4 +62,5 @@ STRIPE_SECRET_KEY=sk_test_51Q7Grn020t3DdONWZ1YmShLsGN3el08uhOUoLIY1v7C5xRbLq2F6m
 ## Screenshots
 
 ![App Screenshot](./public/readme/foto%201.png)
+![App Screenshot](./public/readme/foto%202.png)
 
