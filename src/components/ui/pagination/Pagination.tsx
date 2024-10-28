@@ -26,7 +26,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
     return (
         <div>
-            {!totalPages ?
+            {!totalPages || Number(searchParams.getAll('page')) > totalPages ?
                 <NotFound /> :
                 <ul className='flex justify-center items-center border-2 rounded-full p-6' >
                     <li onClick={() => { createPageURL(currentPage - 1) }} className='cursor-pointer p-2 mr-2'><TrackPreviousIcon width={30} height={30} /></li>

@@ -23,16 +23,21 @@ export const ProductCollectionSelected = () => {
                     Quick start
                 </Text>
                 <Text as='span' color="gray" size="3" className='ml-4'>
-                    Start building your next project in minutes
+                    Grab your cup of coffee and check out these amazing clothes
                 </Text>
-                <Link href={"all-products"} className="font-medium hover:opacity-90 w-[125px] text-white bg-black text-center p-2 ml-3 rounded-full cursor-pointer">Compra ahora</Link>
+                <Link href={"/all-products"} className="font-medium hover:opacity-90 w-[125px] text-white bg-black text-center p-2 ml-3 rounded-full cursor-pointer">Buy now</Link>
             </div>
-            <div className='flex flex-col justify-center md:col-start-5 space-y-4' >
-
-                <Image alt='' className="w-[330px] md:w-[430px]" src={image}>
-
-                </Image>
-
+            <div className="flex flex-col justify-center md:col-start-5 space-y-4 bg-[#F8F8F8]">
+                <Link href={`/all-products`} >
+                    <Image
+                        src={image}
+                        alt={"Image"}
+                        className="object-cover rounded"
+                        width={450}
+                        height={450}
+                    >
+                    </Image>
+                </Link>
             </div>
 
         </section>

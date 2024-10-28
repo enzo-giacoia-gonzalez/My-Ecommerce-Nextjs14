@@ -30,7 +30,7 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
 
     const addProductToCart = cartStore(state => state.addProductToCart)
     const cart = cartStore(state => state.cart)
-    
+
     const [size, setSize] = useState<Size | undefined>()
     const [stock, setStock] = useState(0)
     const [posted, setPosted] = useState(false)
@@ -55,16 +55,21 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
             //alerta
             return
         }
+
+
         setCountProduct(count)
     }
 
-    
+
 
     const addToCart = () => {
 
+        if (stock === 0) return toast('No hay stock', { icon: '🛒', position: "top-right", duration: 2000 });
+
+
         setPosted(true)
 
-        if (cart.find(item => item.id === product.id && item.size === size && countProduct + item.quantity> stock) || !size ) {
+        if (cart.find(item => item.id === product.id && item.size === size && countProduct + item.quantity > stock) || !size) {
             setPosted(false)
             setSize(undefined)
             setCountProduct(1)
@@ -87,11 +92,7 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
             setPosted(false)
             setSize(undefined)
             setCountProduct(1)
-            toast('Producto agregado al carrito', {
-                icon: '🛒',
-                position:"top-right",
-                duration:2000
-             });
+            toast('Producto agregado al carrito', { icon: '🛒', position: "bottom-right", duration: 2000 });
         }, 1000);
 
     }
@@ -100,7 +101,7 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
     return (
         <section className="flex lg:flex-col lg:items-center justify-center max-w-full py-5 antialiased">
 
-            <div className="">
+            <div>
 
                 <div className="space-x-2 flex items-center">
 
@@ -123,7 +124,7 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
                     <span className="lg:hidden lg:invisible font-bold text-3xl mt-7 lg:mt-0 mb-2">{`stock: ${stock}`}</span>
                     <span className="lg:hidden lg:invisible font-bold text-3xl mb-5 lg:mb-0">{product?.title}</span>
                     <span className="lg:hidden lg:invisible mb-5 lg:mb-0 font-medium text-2xl text-[#4D515C]">{`$${product?.price}`}</span>
-                    <Image className="rounded-2xl lg:mt-7" src={product?.img} alt={product?.title} width={750} height={750} />
+                    <Image className="rounded-2xl lg:mt-7" src={`/products/${product?.img}`} alt={product?.title} width={750} height={750} />
 
                     <div className="flex flex-col">
                         {!size &&
@@ -138,9 +139,9 @@ export const ProductCard = ({ product, category }: PropsProductAndCategory) => {
 
                         <SizeSelector sizesAvailable={product?.sizes} sizeSelected={size!} id={product.id} onSizeChanged={(id, size) => productInStockForSize(id, size)} />
                         <StockSelector count={countProduct} onCountChanged={(count) => changeCountProduct(count)} />
-                        {posted === true ? <Button disabled className="order-last font-medium hover:opacity-90 w-[100%] mt-7 text-white bg-black p-5 rounded-md"> <Spinner loading>
+                        {posted === true ? <button disabled className="order-last font-medium hover:opacity-90 w-[70%] mt-7 p-1 text-white bg-black rounded-md"> <Spinner loading>
                             <BookmarkIcon />
-                        </Spinner>Cargando</Button> : <Button onClick={addToCart} className="order-last font-medium hover:opacity-90 w-[100%] mt-7 text-white bg-black p-5 rounded-md cursor-pointer">Agregar al carrito</Button>}
+                        </Spinner>Cargando</button> : <button onClick={addToCart} className="order-last font-medium w-[70%] hover:opacity-90 mt-7 text-white bg-black p-2 rounded-md cursor-pointer">Agregar al carrito</button>}
                     </div>
                 </div>
             </div>

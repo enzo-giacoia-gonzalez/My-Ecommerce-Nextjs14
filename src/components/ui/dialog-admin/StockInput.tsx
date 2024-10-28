@@ -1,5 +1,5 @@
 import { StockSelected } from "@/hooks";
-import { FormInputs} from "@/interface";
+import { FormInputsProduct } from "@/interface";
 import { Text } from "@radix-ui/themes"
 import { FieldErrors, UseFormGetValues, UseFormSetValue } from "react-hook-form";
 import { stock } from "@/types"
@@ -9,18 +9,18 @@ import { stock } from "@/types"
 interface Props {
     inStock: stock,
     setStock: React.Dispatch<React.SetStateAction<stock>>,
-    setValue: UseFormSetValue<FormInputs>,
-    getValues: UseFormGetValues<FormInputs>,
-    errors: FieldErrors<FormInputs>
+    setValue: UseFormSetValue<FormInputsProduct>,
+    getValues: UseFormGetValues<FormInputsProduct>,
+    errors: FieldErrors<FormInputsProduct>
 }
 
 export const StockInput = ({ inStock, setStock, setValue, errors }: Props) => {
     return (
-        <div>
+        <div className="flex-wrap">
             <Text as="label" size="2" mb="1" weight="bold">
                 Stock
             </Text>
-            <div className="flex" >
+            <div className="flex flex-wrap" >
                 {
                     Object.keys(inStock).map((stockKey) => (
                         <div key={stockKey} className={

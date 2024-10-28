@@ -21,7 +21,7 @@ export default async function AllProductsPage({
   const {products, totalPages} = await findProductsPaginated({
     search: searchParams?.search,
     page: Number(searchParams?.page) || 1,
-  }, 2, "")
+  }, 4, "")
 
   
 

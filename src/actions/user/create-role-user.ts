@@ -1,8 +1,9 @@
 "use server"
 
+import { Roles } from "@/types/globals";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { revalidateTag } from "next/cache";
-import { Roles } from "../../types/globals";
+
 
 export async function createUserRole() {
     const { sessionClaims, userId } = auth();

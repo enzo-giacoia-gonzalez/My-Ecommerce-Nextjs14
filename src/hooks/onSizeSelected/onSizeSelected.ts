@@ -1,9 +1,9 @@
 'use client'
 
-import { FormInputs, Size } from "@/interface"
+import { FormInputsProduct, Size } from "@/interface"
 import { UseFormSetValue } from "react-hook-form"
 
-export const onSizeSelected = (sizeItem: string, size: Size, setSize: any, setValue: UseFormSetValue<FormInputs>) => {
+export const onSizeSelected = (sizeItem: string, size: Size, setSize: any, setValue: UseFormSetValue<FormInputsProduct>) => {
 
     setSize({
         ...size as unknown as { XS: string, S: string, M: string, L: string, XL: string, XXL: string, XXXL: string },

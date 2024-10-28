@@ -9,7 +9,5 @@ export const findProductById = async (id: string) => {
         }
     })
 
-    console.log(product)
-
     return product
 }

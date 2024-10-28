@@ -5,6 +5,7 @@ import { Cartstate } from "./CartProvider";
 type CartActionType =
     | { type: 'getStock', payload: number }
     | { type: 'getProduct', payload: Product }
+    | { type: 'setConfirmed' }
 
 export const cartReducer = (state: Cartstate, action: CartActionType): Cartstate => {
     switch (action.type) {
@@ -18,6 +19,12 @@ export const cartReducer = (state: Cartstate, action: CartActionType): Cartstate
                 ...state,
                 product: action.payload
             }
+        case 'setConfirmed':
+            return {
+                ...state,
+                isConfirmed: !state.isConfirmed
+            }
+
 
         default:
             return state;

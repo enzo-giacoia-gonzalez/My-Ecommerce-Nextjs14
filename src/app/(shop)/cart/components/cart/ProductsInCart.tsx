@@ -2,45 +2,45 @@
 
 import { CartProduct } from "@/interface"
 import { ProductsInCartItem } from "./ProductsInCartItem"
+import { Card } from "@radix-ui/themes"
+import { useContext, useState} from "react"
+import { CartContext } from "../../context"
+import { cartStore } from "@/store"
 
 
 
 export const ProductsInCart = ({ cart }: { cart: CartProduct[] }) => {
 
+
+    const {setConfirmed, isConfirmed} = useContext(CartContext)
+    const getSummaryInformation = cartStore(state => state.getSummaryInformation)
+    const [loaded, setLoaded] = useState(false)
+
+
+
     return (
-        <div className=" py-8 flex flex-col overflow-x-auto w-full xl:w-auto">
-            <h1 className="font-bold text-2xl">Your cart</h1>
-            <table className='min-w-[42rem] md:w-[100%] xl:min-w-[42rem]'>
-                <thead className="" >
-                    <tr className="space-x-10">
-                        <th className="text-start"></th>
-                        <th className="text-start">Product</th>
+        <div className="flex flex-col py-8">
+            <h1 className="font-extrabold text-3xl mb-4">Your cart</h1>
+            <Card className="flex flex-col p-5 w-full md:max-w-[450px]">
+                {cart.map((itemCart) => (
+                    <ProductsInCartItem key={itemCart.id} cartProduct={itemCart} />
+                ))}
 
-                        <th className="text-start">Price</th>
+                <div className="flex justify-between items-center py-2 space-x-8 px-4 border-t">
+                    <span>subtotal</span>
+                    <span>{getSummaryInformation().subTotal}</span>
+                </div>
+                <div className="flex justify-between items-center py-2 space-x-8 px-4 border-b">
+                    <span>tax</span>
+                    <span>{0}</span>
+                </div>
 
-
-                        <th className="text-start">Size</th>
-
-                        <th className="text-start">Quantity</th>
-
-
-                        <th className="text-start">Total</th>
-
-                    </tr>
-                </thead>
-
-
-                <tbody>
-                    {cart.map((itemCart) => (
-                        <ProductsInCartItem key={itemCart.id} cartProduct={itemCart} />
-                    ))}
-
-                    <tr className="border-b-1">
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+                <div className="flex justify-between items-center py-2 space-x-8 px-4 my-5">
+                    <span>Total</span>
+                    <span>{getSummaryInformation().total.toFixed(2)}</span>
+                </div>
+                <button onClick={() => setConfirmed()} className="font-medium hover:opacity-90 w-[100%] mr-1 mt-7 text-white bg-black p-2 rounded-md">{isConfirmed==false?"Confirm cart":"Modify cart"}</button>
+            </Card>
         </div>
 
     )

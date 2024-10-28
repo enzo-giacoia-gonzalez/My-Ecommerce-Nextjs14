@@ -26,7 +26,7 @@ export const ShowSlideShow = ({ categories }: Categories) => {
 
     return (
         <section className='overflow-hidden hidden lg:grid lg:grid-cols-1 py-5 my-7'>
-            <div className='rounded-md border bg-[#F5F5F5] lg:flex lg:flex-col'>
+            <div className='rounded-md border lg:flex lg:flex-col'>
 
                 <Slider {...settings}>
                     {

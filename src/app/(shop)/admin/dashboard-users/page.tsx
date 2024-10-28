@@ -3,7 +3,9 @@ import { clerkClient } from "@clerk/nextjs/server";
 
 import { checkRole } from "@/utils/roles";
 import { DialogAdminUser} from "@/components/ui";
-import { SearchUsers, TableAdminUser } from "@/components/admin";
+import { SearchUsers } from "../components";
+import { TableAdminUser } from "./components";
+
 
 
 

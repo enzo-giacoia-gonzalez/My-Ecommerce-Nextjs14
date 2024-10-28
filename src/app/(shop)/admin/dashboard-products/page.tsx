@@ -2,8 +2,10 @@ import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 
 import { checkRole } from "@/utils/roles";
-import { SearchUsers, TableAdminProduct } from "@/components/admin";
-import { DialogAdminProduct } from "@/components/ui/dialog-admin/DialogAdminProduct";
+import { SearchUsers } from "../components";
+import { DialogAdminProduct } from "./components/ui";
+import { TableAdminProduct } from "./components";
+
 
 
 
@@ -33,7 +35,7 @@ export default async function AdminDashboardPage(params: {
     
 
     return (
-        <section className="h-[750px] sm:h-[550px] bg-[#F5F5F5] rounded-lg grid md:grid-col-6 py-8">
+        <section className="h-auto bg-[#F5F5F5] rounded-lg grid md:grid-col-6 py-8">
             <h1 className="font-bold text-4xl ml-8 pb-5 md:pb-0">Panel administrador de productos</h1>
             <p className="ml-8">This page is restricted to users with the admin role.</p>
             <div className="lg:inline lg:items-center py-8">

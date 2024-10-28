@@ -23,7 +23,7 @@ export const ShowSlideShowMobile = ({ categories }: Categories) => {
 
     return (
         <section className='overflow-hidden grid grid-cols-1 lg:hidden py-5 my-7'>
-            <div className='rounded-md border bg-[#F5F5F5]'>
+            <div className='rounded-md border'>
 
                 <Slider {...settings}>
                     {

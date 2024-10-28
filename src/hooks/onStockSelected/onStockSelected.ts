@@ -1,10 +1,10 @@
 'use client'
 
-import { FormInputs } from "@/interface"
+import { FormInputsProduct } from "@/interface"
 import { UseFormSetValue } from "react-hook-form"
 
 
-export const StockSelected = (stock: number, stockKey: string, inStock:{[key: string]: number}, setStock:any, setValue:UseFormSetValue<FormInputs>) => {
+export const StockSelected = (stock: number, stockKey: string, inStock:{[key: string]: number}, setStock:any, setValue:UseFormSetValue<FormInputsProduct>) => {
 
 
     switch (stockKey) {

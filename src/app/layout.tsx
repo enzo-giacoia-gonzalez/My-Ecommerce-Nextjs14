@@ -15,6 +15,7 @@ import {
 } from "@clerk/nextjs";
 
 import { Footer } from "@/components/ui";
+import { Providers } from "@/providers/providers";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -36,14 +37,17 @@ export default function RootLayout({
 
   return (
     <ClerkProvider>
+      <Providers>
       <html lang="en">
         <body className={inter.className}>
+       
           <Theme>
             {children}
           </Theme>
           <Footer />
         </body>
       </html>
+      </Providers>
     </ClerkProvider>
   );
 }

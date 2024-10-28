@@ -14,7 +14,7 @@ export default async function MainLayout({ children }: { children: React.ReactNo
                 <TopMenu />
             </header>
             <main className="min-h-screen ">
-                <div className="px-10 py-6">
+                <div className="px-2 sm:px-10 py-6">
                     <Toaster/>
                     {children}
                 </div>

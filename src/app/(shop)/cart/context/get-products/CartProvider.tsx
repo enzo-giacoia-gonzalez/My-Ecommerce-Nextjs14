@@ -8,11 +8,13 @@ import { findProductById, findProductInStockBySizes } from '@/actions';
 export interface Cartstate {
     product: Product
     inStock: number
+    isConfirmed: boolean
 }
 
 const Cart_INITIAL_STATE: Cartstate = {
     product: undefined as unknown as Product,
-    inStock: 0
+    inStock: 0,
+    isConfirmed: false
 }
 
 interface Props {
@@ -37,8 +39,13 @@ export const CartProvider: FC<Props> = ({ children }) => {
 
     const getProduct = async (id: string): Promise<void> => {
         const product = await findProductById(id)
-        dispatch({ type: 'getProduct', payload: product as unknown as Product || null })
         console.log(product)
+        dispatch({ type: 'getProduct', payload: product as unknown as Product || null })
+    }
+
+
+    const setConfirmed = () => {
+        dispatch({ type: 'setConfirmed' })
     }
 
 
@@ -49,7 +56,9 @@ export const CartProvider: FC<Props> = ({ children }) => {
             product: {} as Product,
             inStock: 0,
             getStock,
-            getProduct
+            getProduct,
+            setConfirmed,
+            isConfirmed: state.isConfirmed
         }}>
             {children}
         </CartContext.Provider>

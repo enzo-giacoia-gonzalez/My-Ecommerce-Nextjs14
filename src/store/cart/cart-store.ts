@@ -39,7 +39,7 @@ export const cartStore = create<State>()(
             getSummaryInformation: () => {
                 const { cart } = get()
                 const subTotal = cart.reduce((total, item) => total + item.price * item.quantity, 0)
-                const tax = subTotal * 0.16
+                const tax = subTotal * 0
                 const total = subTotal + tax
                 const itemsInCart = cart.reduce(
                     (total, item) => total + item.quantity,
@@ -84,10 +84,16 @@ export const cartStore = create<State>()(
             updateProductSize: (product: CartProduct, size: Size) => {
                 const { cart } = get()
 
-                const existingProduct = cart.find(item => item.id === product.id && item.size === product.size)
+                const existingProduct = cart.find(item => item.id === product.id && item.size === size)
+
+                const existingProductWithSize = cart.filter(item => item.id === product.id && item.size === size)
+
+                console.log((existingProductWithSize.length))
+
+               
 
                 if (!existingProduct) {
-                    set({ cart: cart.map(item => item.id === product.id && item.size === product.size ? { ...item, size } : item) })
+                    set({ cart: cart.map(item => item.id === product.id && item.size !== size ? { ...item, size  } : item) })
                 }
             },
 

@@ -2,9 +2,8 @@ export * from "./category-section/ShowSlideShow"
 export * from "./category-section/ShowSlideShowMobile"
 
 
-export * from "./dialog-admin/DialogAdminProduct"
-export * from "./dialog-admin/DialogAdminUser"
-export * from "./dialog-admin/DialogAdminUserItem"
+export * from "../../app/(shop)/admin/dashboard-users/components/ui/dialog-admin/DialogAdminUser"
+export * from "../../app/(shop)/admin/dashboard-users/components/ui/dialog-admin/DialogAdminUserItem"
 export * from "./dialog-admin/SizeInput"
 export * from "./dialog-admin/StockInput"
 

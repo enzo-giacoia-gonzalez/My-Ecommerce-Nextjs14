@@ -1,5 +1,5 @@
 export * from "./cart.product.interface"
 export * from "./category.interface"
-export * from "./form.input.interface"
+export * from "./form.input.product.interface"
 export * from "./product.interface"
 export * from "./user.clerk.client.interface"

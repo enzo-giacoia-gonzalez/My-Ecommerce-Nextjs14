@@ -23,13 +23,10 @@ export default async function HomePage ({
 }) {
 
   
-
-  
   const {products, totalPages} = await findProductsPaginated({
     search: searchParams?.search,
     page: Number(searchParams?.page) || 1,
-  }, 2, params.name)
-
+  }, 4, params.name)
 
 
 

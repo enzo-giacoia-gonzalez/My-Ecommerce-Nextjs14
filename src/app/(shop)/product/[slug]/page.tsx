@@ -17,8 +17,8 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
 
   return (
-    <div>
+   
       <ProductCard product={product} category={category} />
-    </div>
+   
   );
 }
