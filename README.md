@@ -1,7 +1,7 @@
 
 # next-store
 
-next-store es un ecommerce en donde se puede comprar ropa. El objetivo para desarrollar esta página, fue el deseo de mejorar mis habilidades en Next Js, esto también permitió que pueda mejorar mis habilidades en el front y en back. El link para ver la página es: https://next-store-two-rho.vercel.app/
+Next-store es un ecommerce donde los usuarios pueden comprar ropa. El objetivo principal al desarrollar esta página fue mejorar mis habilidades tanto en el front-end como en el back-end. En el front-end, utilicé tecnologías como Next.js, Zustand, React Hook Form, Clsx, Radix UI y TailwindCSS. Para el back-end, utilicé Server Actions de Next.js, junto con PostgreSQL, Prisma y Zod para la gestión de datos y validación. Además, implementé herramientas como Stripe para pagos, Cloudinary para el manejo de imágenes, Clerk para autenticación de usuarios, React Slick para los sliders y Sonner para las notificaciones.
 
 
 ## Deployment
