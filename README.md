@@ -1,10 +1,7 @@
 
 # next-store
 
-next-store es un ecommerce en donde se puede comprar ropa.
-El objetivo para desarrollar esta pagina, fue el deseo de mejorar mis habilidades en Next Js, esto tambien permitio que pueda mejorar mis habilidad en el front y en back
-El link para ver la pagina es: https://next-store-two-rho.vercel.app/
-
+next-store es un ecommerce en donde se puede comprar ropa. El objetivo para desarrollar esta página, fue el deseo de mejorar mis habilidades en Next Js, esto también permitió que pueda mejorar mis habilidades en el front y en back. El link para ver la página es: https://next-store-two-rho.vercel.app/
 
 
 ## Deployment
