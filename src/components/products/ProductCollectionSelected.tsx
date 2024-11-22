@@ -31,8 +31,8 @@ export const ProductCollectionSelected = () => {
                 <Link href={`/all-products`} >
                     <Image
                         src={image}
-                        alt={"Image"}
-                        className="object-cover rounded"
+                        alt={"Imagen taza"}
+                        className="rounded"
                         width={450}
                         height={450}
                     >
